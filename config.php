@@ -5,6 +5,7 @@ define( "DB_USERNAME", "root" );
 define( "DB_PASSWORD", "" );
 define( "CLASS_PATH", "classes" );
 define( "TEMPLATE_PATH", "templates" );
+define( "MODELS_PATH", "models" );
 
 function handleException( $exception ) {
   echo "Sorry, a problem occurred. Please try later.";
