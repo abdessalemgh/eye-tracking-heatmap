@@ -6,10 +6,11 @@ class User
   public $nom = null;
   public $prenom = null;
   public $age = null;
-
+  public $pass = null;
   public function __construct( $data=array() ) {
     if ( isset( $data['id'] ) ) $this->id = (int) $data['id'];
-    if ( isset( $data['age'] ) ) $this->userId = (int) $data['age'];
+    if ( isset( $data['age'] ) ) $this->age = (int) $data['age'];
+    if ( isset( $data['pass'] ) ) $this->pass = ($data['pass']);
     if ( isset( $data['nom'] ) ) $this->nom = preg_replace ( "/[^\.\,\-\_\'\"\@\?\!\:\$ a-zA-Z0-9()]/", "", $data['nom'] );
     if ( isset( $data['prenom'] ) ) $this->prenom = preg_replace ( "/[^\.\,\-\_\'\"\@\?\!\:\$ a-zA-Z0-9()]/", "", $data['prenom'] );
   }
@@ -46,14 +47,18 @@ class User
     if ( !is_null( $this->id ) ) trigger_error ( "Id Exists", E_USER_ERROR );
 
     $conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-    $sql = "INSERT INTO users ( nom, prenom, age) VALUES ( :nom, :prenom, :age)";
-    $st = $conn->prepare ( $sql );
-    $st->bindValue( ":nom", $this->nom, PDO::PARAM_STR, 30);
-    $st->bindValue( ":prenom", $this->prenom, PDO::PARAM_STR, 30);
-    $st->bindValue( ":age", $this->age, PDO::PARAM_INT);
-    $st->execute();
+ 
+    $sql = "INSERT INTO users (nom, prenom, age, pass) VALUES (:nom, :prenom, :age, :pass)";
+    $stmt = $conn->prepare($sql);
+    
+    $stmt->bindValue(':nom', $this->nom);
+    $stmt->bindValue(':prenom', $this->prenom);
+    $stmt->bindValue(':age', $this->age);
+    $stmt->bindValue(':pass', $this->pass);
+    $result = $stmt->execute() or die(print_r($stmt->errorInfo(), true));;
     $this->id = $conn->lastInsertId();
     $conn = null;
+    return $this->id;
   }
 
 
@@ -67,6 +72,41 @@ class User
     $st->bindValue( ":id", $this->id, PDO::PARAM_INT );
     $st->execute();
     $conn = null;
+  }
+
+  public function login($nom, $pass) {
+    $conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+    $sql = "SELECT id, nom, pass FROM users WHERE nom = :nom";
+    $stmt = $conn->prepare($sql);
+ 
+    $stmt->bindValue(':nom', $nom);
+   
+    $stmt->execute()  or die(print_r($stmt->errorInfo(), true));;;
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if($user === false){
+   
+      die('Incorrect username / password combination!');
+  } else{
+
+      $validPassword = password_verify($pass, $user['pass']);
+      
+      if($validPassword){
+
+          $_SESSION['user_id'] = $user['id'];
+          $_SESSION['logged_in'] = time();
+          $this->id = $user['id'];
+          $this->nom = $nom;
+          $this->prenom = $user['prenom'];
+          $this->age = $user['age'];
+
+          header('Location: main.php');
+          exit;
+          
+      } else{
+
+          die('Incorrect username / password combination!');
+      }
+  }
   }
 
 }

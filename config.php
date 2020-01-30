@@ -9,7 +9,7 @@ define( "MODELS_PATH", "models" );
 
 function handleException( $exception ) {
   echo "Sorry, a problem occurred. Please try later.";
-  error_log( $exception->getMessage() );
+  var_dump( $exception->getMessage() );
 }
 
 set_exception_handler( 'handleException' );

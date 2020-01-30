@@ -1,3 +1,43 @@
+<?php
+require( "../config.php" );
+if(isset($_POST['submit'])){
+    
+    $conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+    $nom = !empty($_POST['nom']) ? trim($_POST['nom']) : null;
+    $passwordAttempt = !empty($_POST['pass']) ? trim($_POST['pass']) : null;
+    $sql = "SELECT id, nom, pass FROM users WHERE nom = :nom";
+    $stmt = $conn->prepare($sql);
+ 
+    $stmt->bindValue(':nom', $nom);
+   
+    $stmt->execute()  or die(print_r($stmt->errorInfo(), true));;;
+   
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+   
+    if($user === false){
+   
+        die('Incorrect username / password combination!');
+    } else{
+ 
+        $validPassword = password_verify($passwordAttempt, $user['pass']);
+        
+        if($validPassword){
+ 
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['logged_in'] = time();
+
+            header('Location: main.php');
+            exit;
+            
+        } else{
+
+            die('Incorrect username / password combination!');
+        }
+    }
+    
+}
+ 
+?>
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -7,11 +47,11 @@
     <title>Login - srtdash</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/themify-icons.css">
-    <link rel="stylesheet" href="assets/css/metisMenu.css">
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/themify-icons.css">
+    <link rel="stylesheet" href="/assets/css/metisMenu.css">
+    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="assets/css/slicknav.min.css">
     <!-- amchart css -->
     <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
@@ -37,21 +77,21 @@
     <div class="login-area">
         <div class="container">
             <div class="login-box ptb--100">
-                <form  action="login-action.php" method="POST">
+                <form  action="login.php" method="POST">
                     <div class="login-form-head">
                         <h4>Sign In</h4>
 
                     </div>
                     <div class="login-form-body">
                         <div class="form-gp">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" id="email">
+                            <label for="exampleInputEmail1">Username</label>
+                            <input type="text" id="nom" name="nom">
                             <i class="ti-email"></i>
                             <div class="text-danger"></div>
                         </div>
                         <div class="form-gp">
                             <label for="exampleInputPassword1">Password</label>
-                            <input type="password" id="password">
+                            <input type="password" id="pass" name="pass">
                             <i class="ti-lock"></i>
                             <div class="text-danger"></div>
                         </div>
@@ -67,16 +107,18 @@
                             </div>
                         </div>
                         <div class="submit-btn-area">
-                            <button id="form_submit" type="submit">Submit <i class="ti-arrow-right"></i></button>
+                            <button id="form_submit" type="submit" name="submit">Submit <i class="ti-arrow-right"></i></button>
                           
                         </div>
                         <div class="form-footer text-center mt-5">
-                            <p class="text-muted">Don't have an account? <a href="register.html">Sign up</a></p>
+                            <p class="text-muted">Don't have an account? <a href="/heatmap/templates/register.php">Sign up</a></p>
                         </div>
                     </div>
                 </form>
+               
             </div>
         </div>
+        <?php include "include/footer.php" ?>
     </div>
     <!-- login area end -->
 
