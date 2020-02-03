@@ -9,8 +9,8 @@ $username = isset( $_SESSION['user_id'] ) ? $_SESSION['user_id'] : false;
 //Get action.
 $action = isset( $_GET['action'] ) ? $_GET['action'] : "";
 
-if ( (!$username || empty($_SESSION))  && $action != "login") {
+if ( (!$username || empty($_SESSION))  && !in_array($action, array("register","login"))) {
     //@TODO: Redirect to login page.
-    $action = "login";
+    header('Location: index.php?action=login');
 }
 ?>

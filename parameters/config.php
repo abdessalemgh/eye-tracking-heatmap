@@ -1,8 +1,8 @@
 <?php
 ini_set( "display_errors", true );
-define( "DB_DSN", "mysql:host=localhost;dbname=heatmap" );
-define( "DB_USERNAME", "root" );
-define( "DB_PASSWORD", "" );
+define( "DB_DSN", "mysql:host=localhost;dbname=eye" );
+define( "DB_USERNAME", "abs" );
+define( "DB_PASSWORD", "root" );
 define( "CLASS_PATH", "classes" );
 define( "TEMPLATE_PATH", "templates" );
 define( "MODELS_PATH", "models" );

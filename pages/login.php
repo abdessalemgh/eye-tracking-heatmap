@@ -5,9 +5,12 @@ if (isset($_POST['submit'])) {
 
     //get user login name.
     $nom = !empty($_POST['nom']) ? trim($_POST['nom']) : null;
+
     //get user login password.
     $passwordAttempt = !empty($_POST['pass']) ? trim($_POST['pass']) : null;
-    $sql = "SELECT id, nom, pass FROM users WHERE nom = :nom";
+
+
+    $sql = "SELECT id, nom, pass FROM users WHERE nom = :nom ";
     $stmt = $conn->prepare($sql);
 
     $stmt->bindValue(':nom', $nom);
@@ -28,11 +31,10 @@ if (isset($_POST['submit'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['logged_in'] = time();
 
-            header('Location: main.php');
+            header('Location: index.php?action=admin');
             exit;
 
         } else {
-
             die('Incorrect username / password combination!');
         }
     }
@@ -42,8 +44,8 @@ if (isset($_POST['submit'])) {
 ?>
 
 <?php
-    //Include template header.
-    include("templates/template_header.php");
+//Include template header.
+include("templates/template_header.php");
 
 ?>
 <body>
@@ -60,7 +62,7 @@ if (isset($_POST['submit'])) {
 <div class="login-area">
     <div class="container">
         <div class="login-box ptb--100">
-            <form action="login.php" method="POST">
+            <form action="" method="POST">
                 <div class="login-form-head">
                     <h4>Sign In</h4>
 
@@ -104,16 +106,15 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
     <?php
-        //Include template footer.
-        include "templates/include/footer.php"
+    //Include template footer.
+    include "templates/include/footer.php"
     ?>
 </div>
 <!-- login area end -->
 
+<?php
+//Include template js.
+include("templates/template_js.php")
+?>
 
 </body>
-
-<?php
-    //Include template js.
-    include("templates/template_js.php")
-?>
