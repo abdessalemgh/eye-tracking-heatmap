@@ -20,7 +20,7 @@ switch ($action) {
         die("home page");
         break;
     default:
-        die("default page");
+        include ('pages/main.php');
         break;
 }
 

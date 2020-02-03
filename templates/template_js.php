@@ -11,5 +11,3 @@
 <!-- others plugins -->
 <script src="templates/assets/js/plugins.js"></script>
 <script src="templates/assets/js/scripts.js"></script>
-
-</html>

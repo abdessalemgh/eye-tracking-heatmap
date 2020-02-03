@@ -105,5 +105,5 @@ include("templates/template_header.php");
 include("templates/template_js.php")
 ?>
 
-
 </body>
+</html>

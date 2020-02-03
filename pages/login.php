@@ -118,3 +118,4 @@ include("templates/template_js.php")
 ?>
 
 </body>
+</html>
