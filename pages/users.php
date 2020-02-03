@@ -1,19 +1,13 @@
 <?php
 
-//get user login name.
-$nom = !empty($_POST['nom']) ? trim($_POST['nom']) : null;
+include "models/User.php";
 
-//get user login password.
-$passwordAttempt = !empty($_POST['pass']) ? trim($_POST['pass']) : null;
-
-
-$sql = "SELECT * FROM users";
-$stmt = $conn->prepare($sql);
-
-$stmt->execute() or die(print_r($stmt->errorInfo(), true));
-
-$users = $stmt->fetchAll();
-
+//If showing only one user.
+if(isset($_GET['user'])){
+    $user = User::getById($_GET['user']);
+}else{
+    list($users, $totalOfUsers) = User::getAllUsers();
+}
 //Include template header.
 include("templates/template_header.php");
 
@@ -56,38 +50,12 @@ include("templates/template_header.php");
         <!-- page title area end -->
         <div class="main-content-inner">
             <!-- data table start -->
-            <div class="col-12 mt-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title">Les sujets</h4>
-                        <div class="data-tables">
-                            <table id="usersTable" class="text-center">
-                                <thead class="bg-light text-capitalize">
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>prénom</th>
-                                    <th>Age</th>
-                                    <th>Téle</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php
-                                foreach ($users as $user) {
-                                    $row = "<tr>";
-                                    $row .= "<td>" . $user['nom'] . "</td>";
-                                    $row .= "<td>" . $user['prenom'] . "</td>";
-                                    $row .= "<td>" . $user['age'] . "</td>";
-                                    $row .= "<td>-</td>";
-                                    $row .= "</tr>";
-
-                                    echo $row;
-                                } ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php
+                if(isset($_GET['user']))
+                    include "pages/includes/user_show.php";
+                else
+                    include "pages/includes/users_datatable.php"
+            ?>
             <!-- data table end -->
         </div>
     </div>
