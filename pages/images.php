@@ -67,6 +67,37 @@ include("templates/template_header.php");
             </div>
             <!-- page title area end -->
             <div class="main-content-inner">
+                <!-- Image form start -->
+                <div class="col-12 mt-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-5 mt-5">
+                                        <label for="example-text-input" class="col-form-label">Nom de l'image</label>
+                                        <input class="form-control" type="text" placeholder="Nom de l'image" value="" id="example-text-input" name="imgName">
+                                    </div>
+                                    <div class="col-5 mt-5">
+                                    </div>
+                                    <div class="col-3 mt-5">
+                                        <div class="custom-file">
+                                            <label for="example-text-input" class="col-form-label">Text</label>
+                                            <input type="file" class="custom-file-input" id="inputGroupFile02" name="fileToUpload" id="fileToUpload">
+                                            <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-3 mt-5">
+                                        <button id="submit" type="submit" name="submit" class="btn btn-primary " value="Submit">Upload</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Image form end -->
                 <!-- data table start -->
                 <div class="col-12 mt-5">
                     <div class="card">
@@ -78,6 +109,7 @@ include("templates/template_header.php");
                                         <tr>
                                             <th>Nom Image</th>
                                             <th>Path Image</th>
+                                            <th>Action</th>
 
                                         </tr>
                                     </thead>
@@ -99,30 +131,6 @@ include("templates/template_header.php");
                     </div>
                 </div>
                 <!-- data table end -->
-                <div class="container">
-                    <form action="" method="post" enctype="multipart/form-data">
-                        <div class="row">
-                            <div class="col-5 mt-5">
-                                <label for="example-text-input" class="col-form-label">Nom de l'image</label>
-                                <input class="form-control" type="text" placeholder="Nom de l'image" value="" id="example-text-input" name="imgName">
-                            </div>
-                            <div class="col-5 mt-5">
-                            </div>
-                            <div class="col-3 mt-5">
-                                <div class="custom-file">
-                                    <label for="example-text-input" class="col-form-label">Text</label>
-                                    <input type="file" class="custom-file-input" id="inputGroupFile02" name="fileToUpload" id="fileToUpload">
-                                    <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
-
-                                </div>
-
-                            </div>
-                            <div class="col-3 mt-5">
-                                <button id="submit" type="submit" name="submit" class="btn btn-primary " value="Submit">Upload</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
             </div>
         </div>
 
