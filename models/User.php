@@ -96,7 +96,7 @@ class User
 
         $stmt->bindValue(':nom', $nom);
 
-        $stmt->execute() or die(print_r($stmt->errorInfo(), true));;;
+        $stmt->execute() or die(print_r($stmt->errorInfo(), true));
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($user === false) {
 
@@ -122,6 +122,31 @@ class User
                 die('Incorrect username / password combination!');
             }
         }
+    }
+
+    /**
+     * Return all current users test.
+     *
+     * @return array
+     */
+    public function getTests(){
+        //Connect to dataBase.
+        $conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
+        //Create questry;
+        $sql = "SELECT * from userscheckedimages ui JOIN images im on im.id = ui.imageId WHERE ui.userId = :userId";
+        $stmt = $conn->prepare($sql);
+
+        //bind id parameter.
+        $stmt->bindValue(':userId', $this->id);
+
+        //execute SQL query.
+        $stmt->execute() or die(print_r($stmt->errorInfo(), true));
+
+        //get tests.
+        $tests = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        //Return tests.
+        return $tests;
     }
 
 }
