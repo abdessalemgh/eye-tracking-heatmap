@@ -9,6 +9,7 @@
                         <th>Image</th>
                         <th>Status</th>
                         <th>path</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -18,6 +19,7 @@
                         $row .= "<td> pas encore resigned</td>";
                         $row .= "<td  ". (false? "class='badge badge-success'> passed" : "class='badge badge-danger'> Non passé") ."</td>";
                         $row .= "<td> ". $testedImage['imagePath'] ."</td>";
+                        $row .= "<td> ". (true? "<a href='#'> <i class='ti-eye' title='faire le test'></i></a>": "") ."</td>";
                         $row .= "</tr>";
                         echo $row;
                     }
