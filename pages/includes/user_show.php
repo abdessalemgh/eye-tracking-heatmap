@@ -15,12 +15,15 @@
                     <tbody>
                     <?php
                     foreach ($user->getTests() as $testedImage) {
+
+                        //Create row.
                         $row = "<tr>";
                         $row .= "<td> pas encore resigned</td>";
                         $row .= "<td  " . (false ? "class='badge badge-success'> passed" : "class='badge badge-danger'> Non passé") . "</td>";
                         $row .= "<td> " . $testedImage['imagePath'] . "</td>";
-                        $row .= "<td> " . (true ? "<a href='#'> <i class='ti-eye' title='faire le test'></i></a>" : "") . "</td>";
+                        $row .= "<td> " . (true ? "<a href='index.php?action=test&user=".$user->id."&image=".$testedImage['imageId']."'> <i class='ti-eye' title='faire le test'></i></a>" : "") . "</td>";
                         $row .= "</tr>";
+                        //Return datatable row.
                         echo $row;
                     }
                     ?>

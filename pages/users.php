@@ -2,9 +2,16 @@
 
 include "models/User.php";
 
+//Prepare page data.
+$pageData['page-title'] = "Les utilisateurs";
+$pageData['breadcrumbs'][] = array("link"=>"index.php?action=users", "title"=> "tous les utilisateurs");
+
+
 //If showing only one user.
 if(isset($_GET['user'])){
     $user = User::getById($_GET['user']);
+    //add show user breadcrumbs title to page data.
+    $pageData['breadcrumbs'][] = array("title"=> $user->nom);
 }else{
     list($users, $totalOfUsers) = User::getAllUsers();
 }
@@ -32,21 +39,10 @@ include("templates/template_header.php");
     <!-- main content area start -->
     <div class="main-content">
         <!-- header area start -->
-        <?php include "templates/include/header.php" ?>
+        <?php include "templates/include/header.php"; ?>
         <!-- header area end -->
         <!-- page title area start -->
-        <div class="page-title-area">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <div class="breadcrumbs-area clearfix">
-                        <h4 class="page-title pull-left">Utilisateurs</h4>
-                        <ul class="breadcrumbs pull-left">
-                            <li><span>tous les utilisateurs</span></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php include "templates/include/header_breadcrumbs.php"; ?>
         <!-- page title area end -->
         <div class="main-content-inner">
             <!-- data table start -->
