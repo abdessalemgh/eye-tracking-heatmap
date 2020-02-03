@@ -1,5 +1,5 @@
 <?php
-require("models/image.php");
+require("models/Image.php");
 //List Saved images
 $list = Image::getAllImages();
 
