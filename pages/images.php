@@ -29,6 +29,8 @@ if (isset($_POST['submit']) && !empty($_FILES["fileToUpload"]["name"])) {
                 header("Refresh:0");
             }
         }
+    }else{
+        die("file type is not supported");
     }
 }
 
