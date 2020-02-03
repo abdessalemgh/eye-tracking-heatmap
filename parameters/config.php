@@ -12,5 +12,7 @@ function handleException( $exception ) {
   var_dump( $exception->getMessage() );
 }
 
+//Connect to dataBase.
+$conn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
 set_exception_handler( 'handleException' );
 ?>
