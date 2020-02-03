@@ -4,10 +4,12 @@ class Image
 
   public $id = null;
   public $imagePath = null;
+  public $imageName = null;
 
   public function __construct( $data=array() ) {
     if ( isset( $data['id'] ) ) $this->id = (int) $data['id'];
-    if ( isset( $data['imagePath'] ) ) $this->prenom = preg_replace ( "/[^\.\,\-\_\'\"\@\?\!\:\$ a-zA-Z0-9()]/", "", $data['imagePath'] );
+    if ( isset( $data['imagePath'] ) ) $this->imagePath = $data['imagePath'];
+    if ( isset( $data['imageName'] ) ) $this->imageName = $data['imageName'];
   }
 
 
@@ -25,26 +27,20 @@ class Image
   public static function getAllImages() {
     $conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
     $sql = "SELECT * FROM images ";
-    $row = $st->fetch();
-    $conn = null;
-    while ( $row = $st->fetch() ) {
-      $image = new Image( $row );
-      $list[] = $image;
-    }
-
-    $sql = "SELECT FOUND_ROWS() AS totalRows";
-    $totalRows = $conn->query( $sql )->fetch();
-    $conn = null;
-    return ( array ( "results" => $list, "totalRows" => $totalRows[0] ) );
+    $st = $conn->prepare( $sql );
+    $st->execute() or die(print_r($st->errorInfo(), true));
+    $imgs = $st->fetchAll(); 
+    return $imgs;
   }
 
   public function insert() {
     if ( !is_null( $this->id ) ) trigger_error ( "Id Exists", E_USER_ERROR );
 
     $conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-    $sql = "INSERT INTO images (imagePath) VALUES ( :imagePath)";
+    $sql = "INSERT INTO images (imagePath, imageName) VALUES ( :imagePath, :imageName)";
     $st = $conn->prepare ( $sql );
-    $st->bindValue( ":imagePath", $this->prenom, PDO::PARAM_STR, 120);
+    $st->bindValue( ":imagePath", $this->imagePath);
+    $st->bindValue(':imageName', $this->imageName);
     $st->execute();
     $this->id = $conn->lastInsertId();
     $conn = null;

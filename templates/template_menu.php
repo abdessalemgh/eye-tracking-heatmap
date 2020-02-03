@@ -14,10 +14,12 @@
                     <li class="<?php if ($action == 'users') echo "active" ?>">
                         <a href="index.php?action=users"><i class="ti-user"></i> <span>Sujets</span></a>
                     </li>
+                    <li class="<?php if ($action == 'images') echo "active" ?>">
+                        <a href="index.php?action=images"><i class="ti-receipt"></i> <span>Images</span></a>
+                    </li>
                     <li class="<?php if ($action == 'tests') echo "active" ?>">
                         <a href="index.php?action=tests"><i class="ti-receipt"></i> <span>Test</span></a>
                     </li>
-
                 </ul>
             </nav>
         </div>

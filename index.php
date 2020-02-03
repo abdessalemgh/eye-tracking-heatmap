@@ -19,8 +19,11 @@ switch ($action) {
     case 'users':
         include ('pages/users.php');
         break;
-    case 'home':
-        die("home page");
+    case 'test':
+        include ('pages/test.php');
+        break;
+    case 'images':
+        include ('pages/images.php');
         break;
     default:
         include ('pages/main.php');
