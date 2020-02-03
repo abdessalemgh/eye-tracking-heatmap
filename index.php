@@ -14,7 +14,7 @@ switch ($action) {
         include ('pages/register.php');
         break;
     case 'logout':
-        die("logout page");
+        include ('pages/logout.php');
         break;
     case 'home':
         die("home page");

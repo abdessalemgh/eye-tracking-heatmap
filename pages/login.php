@@ -31,7 +31,7 @@ if (isset($_POST['submit'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['logged_in'] = time();
 
-            header('Location: index.php?action=admin');
+            header('Location: index.php?action=dashboard');
             exit;
 
         } else {

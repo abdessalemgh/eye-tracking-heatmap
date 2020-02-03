@@ -9,13 +9,13 @@
             <nav>
                 <ul class="metismenu" id="menu">
                     <li class="<?php if ($action == 'dashboard') echo "active" ?>">
-                        <a href="index.html"><i class="ti-map-alt"></i> <span>Dashboard</span></a>
+                        <a href="index.php"><i class="ti-map-alt"></i> <span>Dashboard</span></a>
                     </li>
                     <li class="<?php if ($action == 'users') echo "active" ?>">
-                        <a href="maps.html"><i class="ti-map-alt"></i> <span>Sujets</span></a>
+                        <a href="index.php?action=users"><i class="ti-user"></i> <span>Sujets</span></a>
                     </li>
-                    <li>
-                        <a href="invoice.html"><i class="ti-receipt"></i> <span>Invoice Summary</span></a>
+                    <li class="<?php if ($action == 'tests') echo "active" ?>">
+                        <a href="index.php?action=tests"><i class="ti-receipt"></i> <span>Test</span></a>
                     </li>
 
                 </ul>
