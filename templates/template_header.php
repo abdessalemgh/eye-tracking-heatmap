@@ -22,4 +22,6 @@
     <link rel="stylesheet" href="templates/assets/css/responsive.css">
     <!-- modernizr css -->
     <script src="templates/assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <!-- Start datatable css -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 </head>

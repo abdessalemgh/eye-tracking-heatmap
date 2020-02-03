@@ -16,6 +16,9 @@ switch ($action) {
     case 'logout':
         include ('pages/logout.php');
         break;
+    case 'users':
+        include ('pages/users.php');
+        break;
     case 'home':
         die("home page");
         break;
