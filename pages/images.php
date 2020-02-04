@@ -3,6 +3,9 @@ require("models/Image.php");
 //List Saved images
 $list = Image::getAllImages();
 
+//Prepare page data.
+$pageData['page-title'] = "Images";
+$pageData['breadcrumbs'][] = array("link"=>"index.php?action=images", "title"=> "toutes les images");
 
 if (isset($_POST['submit']) && !empty($_FILES["fileToUpload"]["name"])) {
 
@@ -52,21 +55,10 @@ include("templates/template_header.php");
         ?>
         <div class="main-content">
             <!-- header area start -->
-            <?php include "templates/include/header.php" ?>
+            <?php include "templates/include/header.php"; ?>
             <!-- header area end -->
             <!-- page title area start -->
-            <div class="page-title-area">
-                <div class="row align-items-center">
-                    <div class="col-sm-6">
-                        <div class="breadcrumbs-area clearfix">
-                            <h4 class="page-title pull-left">Images</h4>
-                            <ul class="breadcrumbs pull-left">
-                                <li><span>Tout les Images</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php include "templates/include/header_breadcrumbs.php"; ?>
             <!-- page title area end -->
             <div class="main-content-inner">
                 <!-- Image form start -->
