@@ -52,7 +52,7 @@ class User
             $list[] = $user;
         }
 
-        return (array($list, count($users)));
+        return $users;
     }
 
     public function insert()

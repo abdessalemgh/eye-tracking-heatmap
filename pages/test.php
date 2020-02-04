@@ -1,71 +1,107 @@
 <?php
 //Include template header.
 include("templates/template_header.php");
+require("models/User.php");
 
+//Prepare page data.
+$pageData['page-title'] = "Tests ";
+$pageData['breadcrumbs'][] = array("link" => "index.php?action=test", "title" => "toutes les tests");
+//Get all users to list.
+$list = User::getAllUsers();
 ?>
+
 <body>
-<!--[if lt IE 8]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-    your browser</a> to improve your experience.</p>
-<![endif]-->
-<!-- preloader area start -->
-<div id="preloader">
-    <div class="loader"></div>
-</div>
-<!-- preloader area end -->
-<!-- page container area start -->
-<div class="page-container">
-    <!-- sidebar menu area start -->
-    <?php
-    include('templates/template_menu.php');
-    ?>
-    <!-- sidebar menu area end -->
-    <!-- main content area start -->
-    <div class="main-content">
-        <!-- header area start -->
-        <?php include "templates/include/header.php" ?>
-        <!-- header area end -->
-        <!-- page title area start -->
-        <div class="page-title-area">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <div class="breadcrumbs-area clearfix">
-                        <h4 class="page-title pull-left">Dashboard</h4>
-                        <ul class="breadcrumbs pull-left">
-                            <li><span>Dashboard</span></li>
-                        </ul>
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+    <!-- preloader area end -->
+    <!-- page container area start -->
+    <div class="page-container">
+        <!-- sidebar menu area start -->
+        <?php
+        include('templates/template_menu.php');
+        ?>
+        <!-- sidebar menu area end -->
+        <!-- main content area start -->
+        <div class="main-content">
+            <!-- header area start -->
+            <?php include "templates/include/header.php" ?>
+            <!-- header area end -->
+            <!-- page title area start -->
+            <?php include "templates/include/header_breadcrumbs.php"; ?>
+
+            <!-- page title area end -->
+            <div class="main-content-inner">
+                <div class="col-12 mt-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <label class="col-form-label">Sujet</label>
+                            <select class="custom-select" id="userselect">
+                                <option selected="selected" value="sujet">Sujet</option>
+                                <?php
+                                foreach ($list as $user) {
+                                    $row = "<option value='" . $user['id'] . "'>" . $user['nom'] . " " . $user['prenom'] . "</option>";
+                                    var_dump($row);
+                                    echo $row;
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <label class="col-form-label">Image</label>
+                            <select class="custom-select" id="imgsperuser">
+                                <option selected="selected">Image</option>
+
+
+                            </select>
+                            <div class=" mt-5">
+                                <button id="submit" type="submit" name="submit" class="btn btn-primary " value="Submit">Upload</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
-        <!-- page title area end -->
-        <div class="main-content-inner">
-            <!-- sales report area start -->
-
-            <!-- sales report area end -->
-            <!-- overview area start -->
-
-            <!-- overview area end -->
-            <!-- market value area start -->
-
-            <!-- market value area end -->
-            <!-- row area start -->
-
-            <!-- row area start-->
-        </div>
+        <!-- main content area end -->
+        <!-- footer area start-->
+        <?php include "templates/include/footer.php" ?>
+        <!-- footer area end-->
     </div>
-    <!-- main content area end -->
-    <!-- footer area start-->
-    <?php include "templates/include/footer.php" ?>
-    <!-- footer area end-->
-</div>
-<!-- page container area end -->
+    <!-- page container area end -->
 
-<!-- login area end -->
+    <!-- login area end -->
 
-<?php
-//Include template js.
-include("templates/template_js.php")
-?>
+    <?php
+    //Include template js.
+    include("templates/template_js.php")
+    ?>
+    <script>
+        $(function(){ 
+        $('#userselect').on('change', function() {
+            if( $('#userselect').val != "sujet") {   
+            $.ajax({method: "GET", url:"pages/imagereq.php", datatype: 'JSON', data:{"userId" : $('#userselect').children("option:selected").val()},})
+            .success(function(data) {
+                $('#imgsperuser').children('option:not(:first)').remove();
+                var result= $.parseJSON(data);  
+                console.log(result);
+                var len = data.length;
+               $.each( result, function( key, value ){
+
+                    $('#imgsperuser').append(new Option(value['imageName'], value['imageName'])); 
+                })
+            })
+            .error(function(xhr) {
+                alert("error");
+            })
+            
+            
+        }
+        });
+    });
+    </script>
 </body>
+
 </html>

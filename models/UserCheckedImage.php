@@ -26,21 +26,13 @@ class UserCheckedImage
 
   public static function getImagesPerUser( $userId ) {
     $conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-    $sql = "SELECT * FROM images WHERE id IN (SELECT imageId FROM userscheckedimages WHERE userId = :userId)";
+    $sql = "SELECT * FROM images WHERE id NOT IN (SELECT imageId FROM userscheckedimages WHERE userId = :userId)";
     $st = $conn->prepare( $sql );
     $st->bindValue( ":userId", $userId, PDO::PARAM_INT );
     $st->execute();
-    $row = $st->fetch();
-    $conn = null;
-    while ( $row = $st->fetch() ) {
-      $image = new Image( $row );
-      $list[] = $image;
-    }
+    $list = $st->fetchAll(PDO::FETCH_ASSOC);
+    return $list;
 
-    $sql = "SELECT FOUND_ROWS() AS totalRows";
-    $totalRows = $conn->query( $sql )->fetch();
-    $conn = null;
-    return ( array ( "results" => $list, "totalRows" => $totalRows[0] ) );
   }
 
   public function insert() {
