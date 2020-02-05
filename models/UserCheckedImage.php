@@ -5,11 +5,12 @@ class UserCheckedImage
   public $id = null;
   public $userId = null;
   public $imageId = null;
-
+  public $heatdata = null;
   public function __construct( $data=array() ) {
     if ( isset( $data['id'] ) ) $this->id = (int) $data['id'];
     if ( isset( $data['userId'] ) ) $this->userId = (int) $data['userId'];
     if ( isset( $data['imageId'] ) ) $this->imageId = (int) $data['imageId'];
+    if ( isset( $data['heatdata'] ) ) $this->heatdata = $data['heatdata'];
   }
 
 
@@ -35,16 +36,17 @@ class UserCheckedImage
 
   }
 
-  public function insert() {
+  public function insert($heatdata) {
     if ( !is_null( $this->id ) ) trigger_error ( "Id Exists", E_USER_ERROR );
-
     $conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-    $sql = "INSERT INTO userscheckedimages ( userId, imageId) VALUES ( :userId, :imageId)";
+    $sql = "INSERT INTO userscheckedimages ( userId, imageId, heatData) VALUES ( :userId, :imageId, :heatdata)";
     $st = $conn->prepare ( $sql );
     $st->bindValue( ":userId", $this->userId, PDO::PARAM_INT );
     $st->bindValue( ":imageId", $this->imageId, PDO::PARAM_INT );
-    $st->execute();
+    $st->bindValue( ":heatdata", $heatdata, PDO::PARAM_STR);
+    $st->execute() or die((print_r($st->errorInfo(), true)));
     $this->id = $conn->lastInsertId();
+    $this->heatdata = $heatdata;
     $conn = null;
   }
 

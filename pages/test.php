@@ -2,12 +2,19 @@
 //Include template header.
 include("templates/template_header.php");
 require("models/User.php");
-
+require("models/UserCheckedImage.php");
 //Prepare page data.
 $pageData['page-title'] = "Tests ";
 $pageData['breadcrumbs'][] = array("link" => "index.php?action=test", "title" => "toutes les tests");
 //Get all users to list.
 $list = User::getAllUsers();
+if (isset($_POST['submit'])) {
+
+    $userid = $_POST['userSelect'];
+    $data = new UserCheckedImage(array('userId' => $userid, 'imageId' => $_POST['imgSelect'],));
+    $data->insert("0000");
+
+}
 ?>
 
 <body>
@@ -32,11 +39,12 @@ $list = User::getAllUsers();
 
             <!-- page title area end -->
             <div class="main-content-inner">
+            <form method="POST" action="">
                 <div class="col-12 mt-5">
                     <div class="card">
                         <div class="card-body">
                             <label class="col-form-label">Sujet</label>
-                            <select class="custom-select" id="userselect">
+                            <select class="custom-select" id="userselect" name="userSelect">
                                 <option selected="selected" value="sujet">Sujet</option>
                                 <?php
                                 foreach ($list as $user) {
@@ -51,19 +59,25 @@ $list = User::getAllUsers();
                     <div class="card">
                         <div class="card-body">
                             <label class="col-form-label">Image</label>
-                            <select class="custom-select" id="imgsperuser">
+                            <select class="custom-select" id="imgsperuser" name="imgSelect">
                                 <option selected="selected">Image</option>
 
 
                             </select>
                             <div class=" mt-5">
-                                <button id="submit" type="submit" name="submit" class="btn btn-primary " value="Submit">Upload</button>
+                                <button id="submit" type="submit" name="submit" class="btn btn-primary " value="Submit">Assigner</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-            </div>
+            
+            
+            
+            
+            </form>
+        </div>
+                           
         </div>
         <!-- main content area end -->
         <!-- footer area start-->
@@ -90,7 +104,7 @@ $list = User::getAllUsers();
                 var len = data.length;
                $.each( result, function( key, value ){
 
-                    $('#imgsperuser').append(new Option(value['imageName'], value['imageName'])); 
+                    $('#imgsperuser').append(new Option(value['imageName'], value['id'])); 
                 })
             })
             .error(function(xhr) {
